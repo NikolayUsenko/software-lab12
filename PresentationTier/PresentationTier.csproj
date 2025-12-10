@@ -8,4 +8,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataTier\DataTier.csproj" />
+    <ProjectReference Include="..\LogicTier\LogicTier.csproj" />
+  </ItemGroup>
+
 </Project>
