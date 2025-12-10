@@ -22,22 +22,58 @@ namespace LogicTier
 
         public String NameOfShop
         {
-            get { return "Наш магазин"; }
+            get { return "Магазин теники"; }
         }
-
-        public float SummPrice
+        public float MiddlePriceOfNetwork
         {
             get
             {
-                return _products.Sum(p => p.SummPriceOfProductPosition);
+                var networkProducts = _products
+                    .Where(p => p.NameGroupProduct == "Сетевое оборудование")
+                    .ToList();
+
+                if (networkProducts.Count == 0)
+                    return 0;
+
+                return networkProducts.Average(p => p.PriceProduct);
             }
         }
 
-        public float SummCount
+        public float MiddlePriceOfSoftware
         {
             get
             {
-                return _products.Sum(p => p.CountProduct);
+                var softwareProducts = _products
+                    .Where(p => p.NameGroupProduct == "ПО")
+                    .ToList();
+
+                if (softwareProducts.Count == 0)
+                    return 0;
+
+                return softwareProducts.Average(p => p.PriceProduct);
+            }
+        }
+        public String LargestStorage
+        {
+            get
+            {
+                var storageGroups = _products
+                    .GroupBy(p => p.StorageProduct)
+                    .Select(g => new
+                    {
+                        Storage = g.Key,
+                        TotalCount = g.Sum(p => p.CountProduct)
+                    })
+                    .ToList();
+
+                if (storageGroups.Count == 0)
+                    return "Нет данных";
+
+                var largestStorage = storageGroups
+                    .OrderByDescending(g => g.TotalCount)
+                    .First();
+
+                return largestStorage.Storage;
             }
         }
     }

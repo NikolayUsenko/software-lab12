@@ -4,51 +4,69 @@
     {
         public static List<Product> GetAllProducts()
         {
-            List<Product> list = new List<Product>();
 
-            list.Add(
-                new Product()
+            List<Product> products = new List<Product>();
+
+            if (!File.Exists("data.txt"))
+            {
+                throw new FileNotFoundException("Файл data.txt не найден.");
+            }
+
+            try
+            {
+                String[] lines = File.ReadAllLines("data.txt");
+
+                foreach (String line in lines)
                 {
-                    Code = "001",
-                    Name = "OC Windows 11",
-                    Count = 10,
-                    Price = 40.99f,
-                    Description = "Современная операционная система. Версия 11"
-                });
+                    if (String.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
 
-            list.Add(
-                new Product()
-                {
-                    Code = "002",
-                    Name = "3D Max",
-                    Count = 2,
-                    Price = 500.99f,
-                    Description = "Система визуализации и рендеринга от Autodesk Corp."
-                });
+                    String[] parts = line.Split("%");
 
-            list.Add(
-                new Product()
-                {
-                    Code = "003",
-                    Name = "Total Commander 1.00",
-                    Count = 100,
-                    Price = 0.5f,
-                    Description = " - "
-                });
+                    if (parts.Length < 5)
+                    {
+                        throw new FormatException($"Неверный формат строки: {line}");
+                    }
 
-            list.Add(
-              new Product()
-              {
-                  Code = "004",
-                  Name = "MS SQL Server",
-                  Count = 5,
-                  Price = 150.00f,
-                  Description = " СУБД от Microsoft Corp. "
-              });
+                    Product product = new Product();
+                    product.Name = parts[0].Trim();
+                    product.NameGroup = parts[1].Trim();
+                    product.Price = ParsePrice(parts[2].Trim());
+                    product.Count = ParseCount(parts[3].Trim());
+                    product.Storage = parts[4].Trim();
 
-            return list;
+                    products.Add(product);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ошибка при чтении файла data.txt: {ex.Message}", ex);
+            }
+
+            return products;
         }
 
-        public static void SaveAllProducts(List<Product> products) { }
+        private static float ParsePrice(String priceString)
+        {
+            if (float.TryParse(priceString, out float price))
+            {
+                return price;
+            }
+
+            throw new FormatException($"Невозможно преобразовать '{priceString}' в число.");
+        }
+
+        private static int ParseCount(String countString)
+        {
+            if (int.TryParse(countString, out int count))
+            {
+                return count;
+            }
+
+            throw new FormatException($"Невозможно преобразовать '{countString}' в число.");
+        }
     }
 }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationTier"
         mc:Ignorable="d"
-        Title="MainWindow"
-        Height="400"
+        Title="{Binding NameOfShop}"
+        Height="600"
         Width="800"
         WindowStartupLocation="CenterScreen" 
         Background="LightCyan">
@@ -20,8 +20,8 @@
         <Grid Grid.Row="0" Name="GridForTovar"
               DataContext="{Binding ElementName=MainList, Path=SelectedItem}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -29,29 +29,23 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Margin="5" Grid.Row="0" Text="Код:"/>
-            <TextBox Margin="5" Grid.Row="0" Grid.Column="1"
-                     Text="{Binding CodeProduct}"/>
-            <TextBlock Margin="5" Grid.Row="1" Text="Наименование:"/>
-            <TextBox Margin="5" Grid.Row="1" Grid.Column="1"
+            <TextBlock Margin="5" Grid.Row="0" Text="Название товара:"/>
+            <TextBox Margin="5" Grid.Row="0" Grid.Column="1" IsReadOnly="True"
                      Text="{Binding NameProduct}"/>
+            <TextBlock Margin="5" Grid.Row="1" Text="Товарная группа:"/>
+            <TextBox Margin="5" Grid.Row="1" Grid.Column="1" IsReadOnly="True"
+                     Text="{Binding NameGroupProduct}"/>
             <TextBlock Margin="5" Grid.Row="2" Text="Цена:"/>
-            <TextBox Margin="5" Grid.Row="2" Grid.Column="1"
+            <TextBox Margin="5" Grid.Row="2" Grid.Column="1" IsReadOnly="True"
                      Text="{Binding PriceProduct}"/>
             <TextBlock Margin="5" Grid.Row="3" Text="Количество:"/>
-            <TextBox Margin="5" Grid.Row="3" Grid.Column="1"
+            <TextBox Margin="5" Grid.Row="3" Grid.Column="1" IsReadOnly="True"
                      Text="{Binding CountProduct}"/>
-            <TextBlock Margin="5" Grid.Row="4" Text="Описание:"/>
-            <TextBox Margin="5" Grid.Row="5"
-                     Grid.Column="0" Grid.ColumnSpan="2"
-                     Text="{Binding DescriptionProduct}"/>
-            <TextBlock Margin="5" Grid.Row="6" Text="Всего по товару:"/>
-            <TextBox Margin="5" Grid.Row="6" Grid.Column="1"
-                     Text="{Binding SummPriceOfProductPosition, Mode=OneWay}"/>
+            <TextBlock Margin="5" Grid.Row="4" Text="Склад:"/>
+            <TextBox Margin="5" Grid.Row="4" Grid.Column="1" IsReadOnly="True"
+                     Text="{Binding StorageProduct}"/>
         </Grid>
 
         <Grid Grid.Row="1" Name="GridForCollections">
@@ -63,21 +57,30 @@
         </Grid>
 
         <Grid Grid.Row="2" Name="GridForItog">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Margin="5" Text="Суммарная стоимость:" Grid.Column="0"
-                       HorizontalAlignment="Right"/>
-            <TextBox Margin="5" Grid.Column="1"
-                     Text="{Binding Path=SummPrice, Mode=OneWay}"/>
-            <TextBlock Margin="5" Text="Всего товаров:" Grid.Column="2"
-                       HorizontalAlignment="Right"/>
-            <TextBox Margin="5" Grid.Column="3"
-                     Text="{Binding Path=SummCount, Mode=OneWay}"/>
+            <TextBlock Margin="5" Text="Средняя стоимость по каждой группе:" Grid.Column="0" Grid.Row="0"
+                       HorizontalAlignment="Left"/>
+            <TextBlock Margin="5" Text="Сетевое оборудование: " Grid.Row="1" Grid.Column="0"/>
+            <TextBox Margin="5" Grid.Column="1" Grid.Row="1" IsReadOnly="True"
+                     Text="{Binding Path=MiddlePriceOfNetwork, Mode=OneWay}"/>
+            <TextBlock Margin="5" Text="ПО: " Grid.Row="2" Grid.Column="0"/>
+            <TextBox Margin="5" Grid.Column="1" Grid.Row="2" IsReadOnly="True"
+                     Text="{Binding Path=MiddlePriceOfSoftware, Mode=OneWay}"/>
+            
+            <TextBlock Margin="5 15 5 5" Text="Склад с наибольшим количеством товара:" Grid.Column="0" Grid.Row="3"
+                       HorizontalAlignment="Left"/>
+            <TextBox Margin="5 15 5 5" Grid.Column="1" Grid.Row="3" IsReadOnly="True"
+                     Text="{Binding Path=LargestStorage, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </Window>

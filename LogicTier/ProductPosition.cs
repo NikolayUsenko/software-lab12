@@ -5,20 +5,19 @@ namespace LogicTier
     public class ProductPosition
     {
         private Product _product;
-
         public ProductPosition(Product p)
         {
             _product = p;
-        }
-        public String CodeProduct
-        {
-            get { return _product.Code; }
-            set { _product.Code = value; }
         }
         public String NameProduct
         {
             get { return _product.Name; }
             set { _product.Name = value; }
+        }
+        public String NameGroupProduct
+        {
+            get { return _product.NameGroup; }
+            set { _product.NameGroup = value; }
         }
         public float PriceProduct
         {
@@ -30,21 +29,16 @@ namespace LogicTier
             get { return _product.Count; }
             set { _product.Count = value; }
         }
-        public String DescriptionProduct
+        public String StorageProduct
         {
-            get { return _product.Description; }
-            set { _product.Description = value; }
+            get { return _product.Storage; }
+            set { _product.Storage = value; }
         }
-        public float SummPriceOfProductPosition
-        {
-            get { return _product.Price * _product.Count; }
-        }
-        public String ProductPresentation
+        public string ProductPresentation
         {
             get
             {
-                return _product.Code + " : " + _product.Name
-                    + " (" + _product.Price.ToString("C") + ")";
+                return $"{_product.Name} ({_product.NameGroup}) - {_product.Price}$";
             }
         }
     }
